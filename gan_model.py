@@ -10,12 +10,17 @@ class Generator(nn.Module):
     # the output dim corresponds to the size of the sentence embedding.
     def __init__(self, input_len: int):
         super(Generator, self).__init__()
-        self.inpuyt_layer = nn.Linear(input_len, 50)
-        self.hidden_fc0 = nn.Linear(50, 100)
-        self.hidden_fc1 = nn.Linear(100, 200)
-        self.hidden_fc2 = nn.Linear(200, 350)
-        self.hidden_fc3 = nn.Linear(350, 550)
-        self.hidden_fc4 = nn.Linear(550, 768)
+        self.inpuyt_layer = nn.Linear(input_len, 100)
+        self.hidden_fc0 = nn.Linear(100, 400)
+        self.hidden_fc1 = nn.Linear(400, 900)
+        self.hidden_fc2 = nn.Linear(900, 1500)
+        self.hidden_fc3 = nn.Linear(1500, 1500)
+        self.hidden_fc4 = nn.Linear(1500, 1200)
+        self.hidden_fc5 = nn.Linear(1200, 1000)
+        self.hidden_fc6 = nn.Linear(1000, 900)
+        self.dpout = nn.Dropout(p=0.2)
+        self.hidden_fc7 = nn.Linear(900, 768)
+        
 
     def forward(self, x):
         h_1 = F.relu(self.inpuyt_layer(x))
@@ -23,8 +28,13 @@ class Generator(nn.Module):
         h_3 = F.relu(self.hidden_fc1(h_2))
         h_4 = F.relu(self.hidden_fc2(h_3))
         h_5 = F.relu(self.hidden_fc3(h_4))
+        h_6 = F.relu(self.hidden_fc4(h_5))
+        h_7 = F.relu(self.hidden_fc5(h_6))
+        h_8 = F.relu(self.hidden_fc6(h_7))
+        h_9 = self.dpout(h_8)
+        h_10 = self.hidden_fc7(h_9)
 
-        output = self.hidden_fc4(h_5)
+        output = h_10
         
         return output
 

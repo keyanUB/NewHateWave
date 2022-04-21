@@ -12,13 +12,13 @@ class TheData(Dataset):
     '''data keys:
       'label', 'tweet', 'category', 
       'freshness', 'sentiment', 'target', 'othering', 'derogatory', 'threat',
-      'sent_emb'
+      'embed'
     '''
     # read the data
     text = self.data[index]['tweet']
     category = self.data[index]['category']
     label = torch.LongTensor([self.data[index]['label']])
-    sent_emb = torch.FloatTensor(self.data[index]['sent_emb'][0])
+    embed = torch.FloatTensor(self.data[index]['embed'][0])
 
     # combine the attributes
     attributes = torch.FloatTensor([self.data[index]['freshness'], self.data[index]['sentiment'], self.data[index]['target'], self.data[index]['othering'], 
@@ -27,7 +27,7 @@ class TheData(Dataset):
 
 
 
-    return {'text': text, 'category': category, 'label':label, 'attributes': attributes, 'sent_emb': sent_emb}
+    return {'text': text, 'category': category, 'label':label, 'attributes': attributes, 'embedding': embed}
 
 def get_data_loaders(dataset, batch_size, num_worker):
   data = TheData(
@@ -36,9 +36,9 @@ def get_data_loaders(dataset, batch_size, num_worker):
   
   data_loader = DataLoader(
     data,
-    batch_size = 16,
+    batch_size = batch_size,
     shuffle = True,
-    num_workers = 2
+    num_workers = num_worker
   )
 
   return {'data_loader': data_loader, 'dataset': data} 

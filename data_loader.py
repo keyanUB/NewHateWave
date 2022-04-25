@@ -21,8 +21,9 @@ class TheData(Dataset):
     embed = torch.FloatTensor(self.data[index]['embed'][0])
 
     # combine the attributes
-    attributes = torch.FloatTensor([self.data[index]['freshness'], self.data[index]['sentiment'], self.data[index]['target'], self.data[index]['othering'], 
+    attributes = torch.FloatTensor([self.data[index]['sentiment'], self.data[index]['target'], self.data[index]['othering'], 
                                     self.data[index]['derogatory'], self.data[index]['threat']
+                                    # ,self.data[index]['freshness']
                                     ])
 
 
